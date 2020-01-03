@@ -1,0 +1,55 @@
+https://www.youtube.com/watch?v=4pc6cgisbKE
+https://medium.com/@dinotedesco/using-laravel-5-5-resources-to-create-your-own-json-api-formatted-api-2c6af5e4d0e8
+
+======================
+in .env file change the database details
+=======================
+php artisan make:migration create_articles_table --create=articles
+
+If you use maria db , there will be an issue with the length of string, to fix that follow below:
+Go AppServiceProvider class
+add use Illuminate\Support\Facades\Schema;
+===============================
+to create dummy data generate a seeder under database folder
+php artisan make:seeder ArticlesTableSeeder
+than go to the run function of this new seeder class and paste below code to create 30 articles
+factory(App\Articles::class, 30)->create();
+
+Than go to database seeder and call the article seeder from run method
+than run php artisan make:factory ArticleFactory
+
+Than in ArticlesFactory class mention size of each article title and 
+also make sure to rename Model to Article
+===============================
+To create a new Article model
+php artisan make:model Article
+
+Than run the migration
+php artisan migrate , this will create the article database table.
+
+than run the seed to insert dummy articles
+php artisan db:seed
+now it sud insert 30 artilces in the table
+===========================================
+To create controller with resourse
+php artisan make:controller ArticleController --resource
+this will create all the crud methods along with index inside the controller
+===========================================
+than go to routes/api.php for creating endpoints
+===================================
+than create resource
+php artisan make:resource Article
+it will create a http/resource/Article.php file
+============================
+Next go to controller and write code to get some articles
+====================
+use REST CLIENT/Postman http://localhost/larticles/public/api/articles
+now if we dont want created and updated date than we can modify the Article resource file
+so in the resources/article file you can format the response as per the need
+=========================
+if you want response to not be wrapped in data than in AppServiceProvider use  Resource::withoutWrapping();
+https://laravel.com/docs/5.7/eloquent-resources
+========================
+you can do more customization in Article resource in with function
+https://jsonapi.org/
+
